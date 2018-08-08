@@ -642,13 +642,7 @@ if __name__ == '__main__':
     print(opt)
 
     # This class helps load input images from different sources.
-    vs = VideoStreamer(
-        opt.input,
-        opt.camid,
-        opt.H,
-        opt.W,
-        opt.skip,
-        opt.img_glob)
+
 
     print('==> Loading pre-trained network.')
     # This class runs the SuperPoint network and processes its outputs.
@@ -688,6 +682,13 @@ if __name__ == '__main__':
     @app.route("/", methods=["GET", "POST"])
     def lives():
         global outfinal
+        vs = VideoStreamer(
+            opt.input,
+            opt.camid,
+            opt.H,
+            opt.W,
+            opt.skip,
+            opt.img_glob)
 
         def gen():
             global outfinal
@@ -742,7 +743,7 @@ if __name__ == '__main__':
                     lineType=16)
 
                 # Extra output -- Show the point confidence heatmap.
-                if heatmap is not None:
+                if heatmap is None:
                     min_conf = 0.001
                     heatmap[heatmap < min_conf] = min_conf
                     heatmap = -np.log(heatmap)
@@ -769,7 +770,7 @@ if __name__ == '__main__':
                         out, (3 * opt.display_scale * opt.W, opt.display_scale * opt.H))
                 else:
                     outfinal = cv2.resize(
-                        out1, (opt.display_scale * opt.W, opt.display_scale * opt.H))
+                        out1, (3 *opt.display_scale * opt.W, 5* opt.display_scale * opt.H))
                     cv2.imwrite('t.jpg', outfinal)
                 yield (b'--frame\r\n'
                        b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
@@ -779,7 +780,8 @@ if __name__ == '__main__':
         # Display visualization image to screen.
         if not opt.no_display:
             #cv2.imshow(win, outfinal)
-            app.run(debug=True)
+            start = time.time()
+            app.run(debug=True,port=6000,host="0.0.0.0")
             key = cv2.waitKey(opt.waitkey) & 0xFF
             if key == ord('q'):
                 print('Quitting, \'q\' pressed.')
@@ -792,7 +794,7 @@ if __name__ == '__main__':
             cv2.imwrite(out_file, out)
 
         end = time.time()
-        net_t = (1. / float(end1 - start))
+        net_t = (1. / float(end - start))
         total_t = (1. / float(end - start))
         if opt.show_extra:
             print(

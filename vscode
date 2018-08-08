@@ -1,0 +1,17 @@
+{
+    "workbench.colorTheme": "ƒ - One Dark - Operator Mono/Italic",
+    "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "none",
+    "editor.renderControlCharacters": false,
+    "python.workspaceSymbols.enabled": false,
+    "window.zoomLevel": 0,
+    "workbench.colorCustomizations" : {
+    "activityBar.background":"#bad3e5",
+    "statusBar.background": "#bad3e5",
+    "terminal.foreground" : "#bad3e5",
+    "terminal.background" : "#051214"
+},
+"gitlens.advanced.messages": {
+    "suppressShowKeyBindingsNotice": true
+}
+}
