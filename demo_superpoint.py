@@ -779,7 +779,7 @@ if __name__ == '__main__':
         # Display visualization image to screen.
         if not opt.no_display:
             #cv2.imshow(win, outfinal)
-            app.run(debug=True)
+            app.run(host="0.0.0.0",debug=True)
             key = cv2.waitKey(opt.waitkey) & 0xFF
             if key == ord('q'):
                 print('Quitting, \'q\' pressed.')
